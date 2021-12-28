@@ -32,14 +32,14 @@ public class BasketController {
                 .collect(Collectors.toList()));
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("/add")
     public ResponseEntity addBasket(@RequestBody ProductDto productDto) {
         return basketService.addProductInBasket(productConverters.toEntity(productDto))
                 ? new ResponseEntity(HttpStatus.OK)
                 : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/delProduct")
+    @PostMapping("/del")
     public ResponseEntity decreaseBasket(@RequestBody ProductDto productDto) {
         return basketService.deleteProductInBasket(productConverters.toEntity(productDto))
                 ? new ResponseEntity(HttpStatus.OK)

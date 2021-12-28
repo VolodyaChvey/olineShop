@@ -21,6 +21,7 @@
     <maven-resources-plugin.version>2.4.2</maven-resources-plugin.version>
     <h2.version>1.4.194</h2.version>
     <spring.version>5.3.14</spring.version>
+    <spring.security.version>5.3.13.RELEASE</spring.security.version>
   </properties>
 
   <dependencies>
@@ -96,6 +97,17 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-orm</artifactId>
       <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring.security.version}</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-dbcp -->
     <dependency>
