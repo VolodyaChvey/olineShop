@@ -11,7 +11,7 @@ export default class Order extends React.Component{
     render(){
        
         return(
-            <div className="row text-center py-2">
+            <div className="row text-center py-2 backGround">
                 <div className="col-5">
                     <TableHead order={this.props.order}></TableHead>
                 </div>

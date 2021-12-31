@@ -1,30 +1,33 @@
 package com.chvei.controller;
 
+import com.chvei.converters.BasketConvertors;
 import com.chvei.converters.OrdersConvertors;
+import com.chvei.converters.ProductConverters;
+import com.chvei.dto.ProductDto;
+import com.chvei.repository.OrdersRepository;
 import com.chvei.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")
 public class OrdersController {
+    @Autowired
     private OrdersService ordersService;
+    @Autowired
     private OrdersConvertors ordersConvertors;
+    @Autowired
+    private BasketConvertors basketConvertors;
+    @Autowired
+    OrdersRepository ordersRepository;
+    @Autowired
+    ProductConverters productConverters;
 
     public OrdersController() {
-    }
-
-    @Autowired
-    public OrdersController(OrdersService ordersService, OrdersConvertors ordersConvertors) {
-        this.ordersService = ordersService;
-        this.ordersConvertors = ordersConvertors;
     }
 
     @PostMapping(value = "")
@@ -40,5 +43,24 @@ public class OrdersController {
                 .stream()
                 .map(ordersConvertors::toDto)
                 .collect(Collectors.toList()));
+    }
+
+    @GetMapping(value = "/basketItems")
+    public ResponseEntity getBasket() {
+        return ResponseEntity.ok(basketConvertors.toDto(ordersService.getBasket()));
+    }
+
+    @PostMapping(value = "/basketItems/add")
+    public ResponseEntity addItemToBasket(@RequestBody ProductDto productDto) {
+        return ordersService.addProduct(productConverters.toEntity(productDto))
+                ? new ResponseEntity(HttpStatus.OK)
+                : new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/basketItems/del")
+    public ResponseEntity delItemFromBasket(@RequestBody ProductDto productDto) {
+        return ordersService.delProduct(productConverters.toEntity(productDto))
+                ? new ResponseEntity(HttpStatus.OK)
+                : new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 }

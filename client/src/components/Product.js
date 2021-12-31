@@ -16,9 +16,7 @@ export default class Product extends React.Component{
                         <Card.Text>Price  {this.props.product.price}</Card.Text>
                         <div>
                             <Button variant="primary" onClick={this.props.onClickAdd}
-                                                    id={this.props.product.id}>Add</Button>{' '}
-                             <Button variant="primary" onClick={this.props.onClickLess}
-                                                     id={this.props.product.id}>Less</Button>
+                                                    id={this.props.product.id}>Add</Button>
                         </div>
                     </Card.Body>
                 </Card>

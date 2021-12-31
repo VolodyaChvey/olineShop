@@ -20,7 +20,7 @@ public class ProductConverters {
         product.setId(productDto.getId());
         product.setTittle(productDto.getTittle());
         product.setPrice(Float.parseFloat(productDto.getPrice()
-                .replaceFirst(".$", "")
+                .replaceFirst("\\$", "")
                 .replace(",", ".")));
         return product;
     }

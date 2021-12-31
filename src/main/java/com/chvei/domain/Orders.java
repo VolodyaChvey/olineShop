@@ -15,18 +15,13 @@ public class Orders {
     @Column
     private LocalDateTime timestamp;
 
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
-    private List<BasketItem> items;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "orders_product",
+            joinColumns = @JoinColumn(name = "orders_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> productList;
 
     public Orders() {
-    }
-
-    public Orders(Long id, double orderPrice, LocalDateTime timestamp, List<BasketItem> items) {
-        this.id = id;
-        this.orderPrice = orderPrice;
-        this.timestamp = timestamp;
-        this.items = items;
     }
 
     public Long getId() {
@@ -53,12 +48,12 @@ public class Orders {
         this.timestamp = timestamp;
     }
 
-    public List<BasketItem> getItems() {
-        return items;
+    public List<Product> getProductList() {
+        return productList;
     }
 
-    public void setItems(List<BasketItem> items) {
-        this.items = items;
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 
     @Override
@@ -67,6 +62,7 @@ public class Orders {
                 "id=" + id +
                 ", orderPrice=" + orderPrice +
                 ", timestamp=" + timestamp +
+                ", productList=" + productList +
                 '}';
     }
 }

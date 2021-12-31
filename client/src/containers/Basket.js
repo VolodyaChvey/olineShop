@@ -9,11 +9,14 @@ export default class Basket extends React.Component{
         this.state = {
             order: false,
             items: [],
+            text: "Basket is Empty"
         };
 
         this.toMenu = this.toMenu.bind(this);
         this.toHistory = this.toHistory.bind(this);
         this.onClickToPay = this.onClickToPay.bind(this);
+        this.onClickLess = this.onClickLess.bind(this);
+        this.onClickAdd = this.onClickAdd.bind(this);
     }
 
     toMenu(){
@@ -22,6 +25,41 @@ export default class Basket extends React.Component{
 
     toHistory(){
         history.push('/history')
+    }
+    onClickLess(e){
+        let item = this.state.items.filter(i =>i.productId==e.target.id)[0];
+        let p={};
+        p.id=item.productId;
+        p.tittle=item.tittle;
+        p.price=item.price;
+        axios
+         .post("http://localhost:8099/OnlineShop/orders/basketItems/del",p)
+         .then((resp)=>{
+                axios
+                .get("http://localhost:8099/OnlineShop/orders/basketItems")
+                .then((resp)=>{
+                    this.setState({items: resp.data})  
+            })
+         })
+         .catch((resp)=>{
+         })
+    }
+
+    onClickAdd(e){
+        let item = this.state.items.filter(i =>i.productId==e.target.id)[0];
+        let p={};
+        p.id=item.productId;
+        p.tittle=item.tittle;
+        p.price=item.price;
+        axios
+         .post("http://localhost:8099/OnlineShop/orders/basketItems/add",p)
+         .then((resp)=>{
+             axios
+                .get("http://localhost:8099/OnlineShop/orders/basketItems")
+                .then((resp)=>{
+                     this.setState({items: resp.data})  
+            })  
+         })
     }
 
     onClickToPay(){
@@ -35,10 +73,9 @@ export default class Basket extends React.Component{
 
     componentDidMount(){
         axios
-            .get("http://localhost:8099/OnlineShop/basketItems")
+            .get("http://localhost:8099/OnlineShop/orders/basketItems")
             .then((resp)=>{
-                this.setState({items: resp.data})
-                
+                this.setState({items: resp.data})  
             })
     }
 
@@ -50,6 +87,9 @@ export default class Basket extends React.Component{
                 <BasketView
                     order={this.state.order}
                     items={this.state.items}
+                    text={this.state.text}
+                    onClickAdd={this.onClickAdd}
+                    onClickLess={this.onClickLess}
                     onClickToPay={this.onClickToPay}
                     toMenu={this.toMenu}
                     toHistory={this.toHistory}

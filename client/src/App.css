@@ -48,3 +48,12 @@
 .buttons{
   background-color: rgba(80, 80, 80, 0.68);
 }
+.backGround{
+  background-color: rgba(202, 198, 198);
+  margin-top: 1rem;
+ margin-bottom: 1rem;
+}
+.label{
+  color: red;
+  font-size:xx-large;
+}

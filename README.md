@@ -1,21 +1,21 @@
 ### OnlineShop
 The back-end part of the application starts with 
-the command `mvn install tomcat7: run` from the command line.
+the command `mvn install tomcat7:run` from the command line.
 
 1.To get a list of available products,you need to call an 
 URL `http://localhost:8099/OnlineShop/products` by GET-method.
 
 2.To view the basket, you need to call an URL
-`http://localhost:8099/OnlineShop/basketItems` by GET-method
+`http://localhost:8099/OnlineShop/orders/basketItems` by GET-method
 
 3.To add a product to the basket, you need to call an URL
-`http://localhost:8099/OnlineShop/basketItems/add` by 
+`http://localhost:8099/OnlineShop/orders/basketItems/add` by 
 POST-method with body containing product like 
 `{"id": 1,"tittle": "Shirt","price": "22.59$"}` or any
  other product from the list of available products.
  
  4.To remove an item from the basket, you need to call an URL
- `http://localhost:8099/OnlineShop/basketItems/del` by 
+ `http://localhost:8099/OnlineShop/orders/basketItems/del` by 
  POST-method with body containing product like 
  `{"id": 1,"tittle": "Shirt","price": "22.59$"}` or any
   other product from the list of available products.

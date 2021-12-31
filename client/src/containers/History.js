@@ -8,6 +8,7 @@ export default class History extends React.Component{
         super(props);
         this.state={
             orders: [],
+            text: "No completed Orders",
         };
         this.toMenu = this.toMenu.bind(this);
         this.toBasket = this.toBasket.bind(this);
@@ -33,6 +34,7 @@ export default class History extends React.Component{
         return(
             <div>
                 <HistoryView orders={this.state.orders}
+                            text={this.state.text}
                              toMenu={this.toMenu}
                              toBasket={this.toBasket}/>
             </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import Order from "../components/Order";
 import { Button } from "react-bootstrap";
+import Label from "../components/Label";
 
 export default class HistoryView extends React.Component{
     constructor(props){
@@ -23,6 +24,7 @@ export default class HistoryView extends React.Component{
                     {this.props.orders.map((o,i)=>
                         <Order order={o}></Order>
                     )}
+                    {this.props.orders.length===0 && <Label text={this.props.text}></Label>}
                 </div>
             </div>
         )

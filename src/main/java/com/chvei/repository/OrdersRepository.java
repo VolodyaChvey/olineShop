@@ -33,4 +33,13 @@ public class OrdersRepository {
                 .findFirst();
     }
 
+    public List<Object[]> findBasket(Long idOrders){
+        return sessionFactory.getCurrentSession()
+                .createSQLQuery("SELECT P.id, P.tittle, P.price, COUNT(*), SUM(P.price) " +
+                        "FROM Product AS P JOIN orders_product AS O_P ON O_P.product_id = P.id " +
+                        "WHERE O_P.orders_id =:idOrders " +
+                        "GROUP BY P.id")
+                .setParameter("idOrders",idOrders)
+                .getResultList();
+    }
 }

@@ -7,12 +7,12 @@ public class OrdersDto {
     private Long id;
     private double orderPrice;
     private String timestamp;
-    private List<ItemDto> items;
+    private List<BasketItemDto> items;
 
     public OrdersDto() {
     }
 
-    public OrdersDto(Long id, double orderPrice, String timestamp, List<ItemDto> items) {
+    public OrdersDto(Long id, double orderPrice, String timestamp, List<BasketItemDto> items) {
         this.id = id;
         this.orderPrice = orderPrice;
         this.timestamp = timestamp;
@@ -43,11 +43,11 @@ public class OrdersDto {
         this.timestamp = timestamp;
     }
 
-    public List<ItemDto> getItems() {
+    public List<BasketItemDto> getItems() {
         return items;
     }
 
-    public void setItems(List<ItemDto> items) {
+    public void setItems(List<BasketItemDto> items) {
         this.items = items;
     }
 
@@ -59,21 +59,5 @@ public class OrdersDto {
                 ", timestamp='" + timestamp + '\'' +
                 ", items=" + items +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OrdersDto ordersDto = (OrdersDto) o;
-        return Double.compare(ordersDto.orderPrice, orderPrice) == 0 &&
-                id.equals(ordersDto.id) &&
-                timestamp.equals(ordersDto.timestamp) &&
-                items.equals(ordersDto.items);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, orderPrice, timestamp, items);
     }
 }

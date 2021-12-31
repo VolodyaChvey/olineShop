@@ -16,17 +16,11 @@ export default class ProductView extends React.Component{
         for(let i = 0; i < items.length; i++ ){
             content.push(<div className="row">
                 <div className="col-4"><Product product={items[i++]}
-                                               
-                                                onClickAdd={this.props.onClickAdd}
-                                                onClickLess={this.props.onClickLess}/></div>
-                {items[i]&&<div className="col-4"><Product product={items[i++]}
-                                                            
-                                                            onClickAdd={this.props.onClickAdd}
-                                                            onClickLess={this.props.onClickLess}/></div>}
-                {items[i]&&<div className="col-4"><Product product={items[i]}
-                                                           
-                                                            onClickAdd={this.props.onClickAdd}
-                                                            onClickLess={this.props.onClickLess}/></div>}
+                                                onClickAdd={this.props.onClickAdd}/></div>
+                {items[i]&&<div className="col-4"><Product product={items[i++]}                                            
+                                                            onClickAdd={this.props.onClickAdd}/></div>}
+                {items[i]&&<div className="col-4"><Product product={items[i]}                                           
+                                                            onClickAdd={this.props.onClickAdd}/></div>}
             </div>)
         }
         return content;

@@ -1,6 +1,7 @@
 package com.chvei.domain;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,14 +16,17 @@ public class Product {
 
     @Column(nullable = false)
     private float price;
+    @ManyToMany(mappedBy = "productList")
+    private List<Orders> ordersList;
 
     public Product() {
     }
 
-    public Product(int id, String tittle, float price) {
+    public Product(int id, String tittle, float price, List<Orders> ordersList) {
         this.id = id;
         this.tittle = tittle;
         this.price = price;
+        this.ordersList = ordersList;
     }
 
     public int getId() {
@@ -47,6 +51,14 @@ public class Product {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
     }
 
     @Override

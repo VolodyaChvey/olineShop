@@ -11,25 +11,14 @@ export default class Products extends React.Component{
             products: [],
         };
         this.onClickAdd = this.onClickAdd.bind(this);
-        this.onClickLess = this.onClickLess.bind(this);
         this.toBasket = this.toBasket.bind(this);
         this.toHistory = this.toHistory.bind(this);
-    }
-    onClickLess(e){
-        let p = this.state.products[e.target.id-1]
-        axios
-         .post("http://localhost:8099/OnlineShop/basketItems/del",p)
-         .then((resp)=>{
-              
-         })
-         .catch((resp)=>{
-         })
     }
 
     onClickAdd(e){
         let p = this.state.products[e.target.id-1]
         axios
-         .post("http://localhost:8099/OnlineShop/basketItems/add",p)
+         .post("http://localhost:8099/OnlineShop/orders/basketItems/add",p)
          .then((resp)=>{
                 
          })
@@ -59,8 +48,7 @@ export default class Products extends React.Component{
                      products={this.state.products}
                      toHistory={this.toHistory}
                      toBasket={this.toBasket}
-                     onClickAdd={this.onClickAdd}
-                     onClickLess={this.onClickLess}/>
+                     onClickAdd={this.onClickAdd}/>
             </div>
         );
     }
