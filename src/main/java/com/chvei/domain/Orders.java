@@ -14,7 +14,9 @@ public class Orders {
     private double orderPrice;
     @Column
     private LocalDateTime timestamp;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "orders_product",
             joinColumns = @JoinColumn(name = "orders_id"),
@@ -48,6 +50,14 @@ public class Orders {
         this.timestamp = timestamp;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public List<Product> getProductList() {
         return productList;
     }
@@ -62,6 +72,7 @@ public class Orders {
                 "id=" + id +
                 ", orderPrice=" + orderPrice +
                 ", timestamp=" + timestamp +
+                ", user=" + user +
                 ", productList=" + productList +
                 '}';
     }

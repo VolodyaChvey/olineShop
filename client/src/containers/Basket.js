@@ -9,18 +9,24 @@ export default class Basket extends React.Component{
         this.state = {
             order: false,
             items: [],
-            text: "Basket is Empty"
+            text: "Basket is empty"
         };
 
         this.toMenu = this.toMenu.bind(this);
         this.toHistory = this.toHistory.bind(this);
+        this.toLogout = this.toLogout.bind(this);
         this.onClickToPay = this.onClickToPay.bind(this);
         this.onClickLess = this.onClickLess.bind(this);
         this.onClickAdd = this.onClickAdd.bind(this);
     }
 
-    toMenu(){
+    toLogout(){
+        localStorage.clear();
         history.push('/')
+    }
+
+    toMenu(){
+        history.push('/product')
     }
 
     toHistory(){
@@ -33,10 +39,12 @@ export default class Basket extends React.Component{
         p.tittle=item.tittle;
         p.price=item.price;
         axios
-         .post("http://localhost:8099/OnlineShop/orders/basketItems/del",p)
+         .post("http://localhost:8099/OnlineShop/orders/basketItems/del",p,
+                 JSON.parse(localStorage.AuthHeader))
          .then((resp)=>{
                 axios
-                .get("http://localhost:8099/OnlineShop/orders/basketItems")
+                .get("http://localhost:8099/OnlineShop/orders/basketItems",
+                     JSON.parse(localStorage.AuthHeader))
                 .then((resp)=>{
                     this.setState({items: resp.data})  
             })
@@ -52,10 +60,12 @@ export default class Basket extends React.Component{
         p.tittle=item.tittle;
         p.price=item.price;
         axios
-         .post("http://localhost:8099/OnlineShop/orders/basketItems/add",p)
+         .post("http://localhost:8099/OnlineShop/orders/basketItems/add",p,
+            JSON.parse(localStorage.AuthHeader))
          .then((resp)=>{
              axios
-                .get("http://localhost:8099/OnlineShop/orders/basketItems")
+                .get("http://localhost:8099/OnlineShop/orders/basketItems",
+                    JSON.parse(localStorage.AuthHeader))
                 .then((resp)=>{
                      this.setState({items: resp.data})  
             })  
@@ -64,7 +74,8 @@ export default class Basket extends React.Component{
 
     onClickToPay(){
         axios
-            .post("http://localhost:8099/OnlineShop/orders")
+            .post("http://localhost:8099/OnlineShop/orders",null,
+                 JSON.parse(localStorage.AuthHeader))
             .then((resp)=>{
                 this.setState({order: resp.data})
                 console.log(this.state.order)
@@ -73,7 +84,8 @@ export default class Basket extends React.Component{
 
     componentDidMount(){
         axios
-            .get("http://localhost:8099/OnlineShop/orders/basketItems")
+            .get("http://localhost:8099/OnlineShop/orders/basketItems",
+                 JSON.parse(localStorage.AuthHeader))
             .then((resp)=>{
                 this.setState({items: resp.data})  
             })
@@ -93,6 +105,7 @@ export default class Basket extends React.Component{
                     onClickToPay={this.onClickToPay}
                     toMenu={this.toMenu}
                     toHistory={this.toHistory}
+                    toLogout={this.toLogout}
                 ></BasketView>
             </div>
         )

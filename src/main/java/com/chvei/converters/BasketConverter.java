@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class BasketConvertors {
+public class BasketConverter {
 
     public List<BasketItemDto> toDto(List<Object[]> list) {
         List<BasketItemDto> basketList = new ArrayList<>();

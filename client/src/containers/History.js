@@ -12,10 +12,16 @@ export default class History extends React.Component{
         };
         this.toMenu = this.toMenu.bind(this);
         this.toBasket = this.toBasket.bind(this);
+        this.toLogout = this.toLogout.bind(this);
+    }
+
+    toLogout(){
+        localStorage.clear();
+        history.push('/')
     }
 
     toMenu(){
-        history.push('/')
+        history.push('/product')
     }
 
     toBasket(){
@@ -24,7 +30,8 @@ export default class History extends React.Component{
 
     componentDidMount(){
         axios
-         .get("http://localhost:8099/OnlineShop/orders")
+         .get("http://localhost:8099/OnlineShop/orders",
+                JSON.parse(localStorage.AuthHeader) )
          .then((resp)=>{
             this.setState({orders: resp.data})
          })
@@ -35,8 +42,9 @@ export default class History extends React.Component{
             <div>
                 <HistoryView orders={this.state.orders}
                             text={this.state.text}
-                             toMenu={this.toMenu}
-                             toBasket={this.toBasket}/>
+                            toLogout={this.toLogout}
+                            toMenu={this.toMenu}
+                            toBasket={this.toBasket}/>
             </div>
         )
     }

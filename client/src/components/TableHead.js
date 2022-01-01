@@ -9,7 +9,7 @@ export default class TableHead extends React.Component{
         return(
             <div>
                 <table className="table table-bordered table-responsive table-hover">
-                    <thead>
+                    <thead className="firstThead">
                         <tr>
                             <th>ID</th>
                             <th>OrderPrice</th>

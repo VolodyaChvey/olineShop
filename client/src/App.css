@@ -49,11 +49,24 @@
   background-color: rgba(80, 80, 80, 0.68);
 }
 .backGround{
-  background-color: rgba(202, 198, 198);
+  background-color: rgb(221, 217, 217);
   margin-top: 1rem;
  margin-bottom: 1rem;
+ border-radius: 35px;
+ box-shadow: 5px 5px 5px rgb(80, 80, 80, 0.68);
+}
+.table{
+  background-color:rgb(190, 190, 190);
+}
+.firstThead{
+  background-color:rgba(11, 167, 81, 0.68);
 }
 .label{
-  color: red;
   font-size:xx-large;
+}
+.color-red{
+ color: red;
+}
+.text-right{
+  text-align: right;
 }

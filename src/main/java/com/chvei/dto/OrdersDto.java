@@ -7,15 +7,17 @@ public class OrdersDto {
     private Long id;
     private double orderPrice;
     private String timestamp;
+    private UserDto userDto;
     private List<BasketItemDto> items;
 
     public OrdersDto() {
     }
 
-    public OrdersDto(Long id, double orderPrice, String timestamp, List<BasketItemDto> items) {
+    public OrdersDto(Long id, double orderPrice, String timestamp, UserDto userDto, List<BasketItemDto> items) {
         this.id = id;
         this.orderPrice = orderPrice;
         this.timestamp = timestamp;
+        this.userDto = userDto;
         this.items = items;
     }
 
@@ -43,6 +45,14 @@ public class OrdersDto {
         this.timestamp = timestamp;
     }
 
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
+    }
+
     public List<BasketItemDto> getItems() {
         return items;
     }
@@ -57,6 +67,7 @@ public class OrdersDto {
                 "id=" + id +
                 ", orderPrice=" + orderPrice +
                 ", timestamp='" + timestamp + '\'' +
+                ", userDto=" + userDto +
                 ", items=" + items +
                 '}';
     }

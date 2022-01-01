@@ -8,13 +8,15 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class OrdersConvertors {
+public class OrdersConverter {
 @Autowired
 private OrdersService ordersService;
 @Autowired
-private BasketConvertors basketConvertors;
+private BasketConverter basketConverter;
+@Autowired
+private UserConverter userConverter;
 
-    public OrdersConvertors() {
+    public OrdersConverter() {
     }
 
     public OrdersDto toDto(Orders orders) {
@@ -22,7 +24,8 @@ private BasketConvertors basketConvertors;
         ordersDto.setId(orders.getId());
         ordersDto.setOrderPrice(orders.getOrderPrice());
         ordersDto.setTimestamp(orders.getTimestamp().toString());
-        ordersDto.setItems(basketConvertors.toDto(ordersService.getBasket(orders.getId())));
+        ordersDto.setUserDto(userConverter.toDto(orders.getUser()));
+        ordersDto.setItems(basketConverter.toDto(ordersService.getBasket(orders.getId())));
         return ordersDto;
     }
 }

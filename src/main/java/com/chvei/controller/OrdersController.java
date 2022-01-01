@@ -1,16 +1,16 @@
 package com.chvei.controller;
 
-import com.chvei.converters.BasketConvertors;
-import com.chvei.converters.OrdersConvertors;
-import com.chvei.converters.ProductConverters;
+import com.chvei.converters.BasketConverter;
+import com.chvei.converters.OrdersConverter;
+import com.chvei.converters.ProductConverter;
 import com.chvei.dto.ProductDto;
-import com.chvei.repository.OrdersRepository;
 import com.chvei.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.stream.Collectors;
 
 @RestController
@@ -19,47 +19,48 @@ public class OrdersController {
     @Autowired
     private OrdersService ordersService;
     @Autowired
-    private OrdersConvertors ordersConvertors;
+    private OrdersConverter ordersConverter;
     @Autowired
-    private BasketConvertors basketConvertors;
+    private BasketConverter basketConverter;
     @Autowired
-    OrdersRepository ordersRepository;
-    @Autowired
-    ProductConverters productConverters;
+    ProductConverter productConverter;
 
     public OrdersController() {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity confirmationOfOrder() {
-        return ordersService.completedOrders()
-                .map(o -> ResponseEntity.ok(ordersConvertors.toDto(o)))
+    public ResponseEntity confirmationOfOrder(Principal principal) {
+        return ordersService.completedOrders(principal)
+                .map(o -> ResponseEntity.ok(ordersConverter.toDto(o)))
                 .orElse(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
     @GetMapping(value = "")
-    public ResponseEntity getAllOrders() {
-        return ResponseEntity.ok(ordersService.getAllOrders()
-                .stream()
-                .map(ordersConvertors::toDto)
-                .collect(Collectors.toList()));
+    public ResponseEntity getAllOrdersByUser(Principal principal) {
+        return ordersService.getAllOrdersByUser(principal)
+                .map(listO->ResponseEntity.ok(listO.stream()
+                        .map(ordersConverter::toDto)
+                        .collect(Collectors.toList())))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping(value = "/basketItems")
-    public ResponseEntity getBasket() {
-        return ResponseEntity.ok(basketConvertors.toDto(ordersService.getBasket()));
+    public ResponseEntity getBasket(Principal principal) {
+        return ordersService.getBasket(principal)
+                .map(b -> ResponseEntity.ok(basketConverter.toDto(b)))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(value = "/basketItems/add")
-    public ResponseEntity addItemToBasket(@RequestBody ProductDto productDto) {
-        return ordersService.addProduct(productConverters.toEntity(productDto))
+    public ResponseEntity addItemToBasket(@RequestBody ProductDto productDto,Principal principal) {
+        return ordersService.addProduct(productConverter.toEntity(productDto),principal)
                 ? new ResponseEntity(HttpStatus.OK)
                 : new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(value = "/basketItems/del")
-    public ResponseEntity delItemFromBasket(@RequestBody ProductDto productDto) {
-        return ordersService.delProduct(productConverters.toEntity(productDto))
+    public ResponseEntity delItemFromBasket(@RequestBody ProductDto productDto,Principal principal) {
+        return ordersService.delProduct(productConverter.toEntity(productDto),principal)
                 ? new ResponseEntity(HttpStatus.OK)
                 : new ResponseEntity(HttpStatus.BAD_REQUEST);
     }

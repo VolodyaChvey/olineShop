@@ -1,13 +1,15 @@
 package com.chvei.service;
 
-import com.chvei.converters.BasketConvertors;
+import com.chvei.converters.BasketConverter;
 import com.chvei.domain.Orders;
 import com.chvei.domain.Product;
+import com.chvei.domain.User;
 import com.chvei.repository.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,58 +23,81 @@ public class OrdersService {
     @Autowired
     private ProductService productService;
     @Autowired
-    BasketConvertors basketConvertors;
+    private UserService userService;
+    @Autowired
+    BasketConverter basketConverter;
 
     public OrdersService() {
     }
 
-    public List<Orders> getAllOrders() {
-        return ordersRepository.findAllOrders();
+    public Optional<List<Orders>> getAllOrdersByUser(Principal principal) {
+        User user = userService.getCurrentUser(principal).orElse(null);
+        if (user == null) {
+            return Optional.empty();
+        }
+        return Optional.of(ordersRepository.findAllOrdersByUserId(user.getId()));
     }
 
-    public List<Object[]> getBasket() {
-        return ordersRepository.findBasket(getOrdersOrCreatOrders().getId());
+    public Optional<List<Object[]>> getBasket(Principal principal) {
+        User user = userService.getCurrentUser(principal).orElse(null);
+        if (user == null) {
+            return Optional.empty();
+        }
+        return Optional.of(ordersRepository.findBasket(getOrdersOrCreatOrders(user).getId()));
     }
 
     public List<Object[]> getBasket(Long idOrders) {
         return ordersRepository.findBasket(idOrders);
     }
 
-    public Optional<Orders> completedOrders() {
-        Orders order = getOrdersOrCreatOrders();
+    public Optional<Orders> completedOrders(Principal principal) {
+        User user = userService.getCurrentUser(principal).orElse(null);
+        if (user == null) {
+            return Optional.empty();
+        }
+        Orders order = getOrdersOrCreatOrders(user);
+
         System.out.println("completdOrders: " + order);
+
         if (!order.getProductList().isEmpty()) {
             order.setOrderPrice(Math.round(order.getProductList().stream()
                     .mapToDouble(Product::getPrice)
-                    .sum()*100)/100.00);
+                    .sum() * 100) / 100.00);
             order.setTimestamp(LocalDateTime.now());
             return Optional.of(order);
         }
         return Optional.empty();
     }
 
-    public boolean addProduct(Product product) {
-        Orders orders = getOrdersOrCreatOrders();
+    public boolean addProduct(Product product, Principal principal) {
+        User user = userService.getCurrentUser(principal).orElse(null);
+        if (user == null) {
+            return false;
+        }
+        Orders orders = getOrdersOrCreatOrders(user);
         return validProduct(product) && orders.getProductList().add(product);
     }
 
-    public boolean delProduct(Product product) {
-        Orders orders = getOrdersOrCreatOrders();
+    public boolean delProduct(Product product, Principal principal) {
+        User user = userService.getCurrentUser(principal).orElse(null);
+        if (user == null) {
+            return false;
+        }
+        Orders orders = getOrdersOrCreatOrders(user);
         return validProduct(product) && orders.getProductList().remove(product);
     }
 
-    private Orders creatOrders() {
+    private Orders createOrders(User user) {
         Orders orders = new Orders();
+        orders.setUser(user);
         orders.setId(ordersRepository.saveOrders(orders));
-        if (orders.getProductList() == null) {
-            orders.setProductList(new ArrayList<>());
-        }
+        orders.setProductList(new ArrayList<>());
         return orders;
     }
 
-    public Orders getOrdersOrCreatOrders() {
-        return ordersRepository.findOrderByNull()
-                .orElseGet(this::creatOrders);
+    public Orders getOrdersOrCreatOrders(User user) {
+        return ordersRepository.findOrderByNullByUserId(user.getId())
+                .orElseGet(() -> createOrders(user));
     }
 
     private boolean validProduct(Product product) {

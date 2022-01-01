@@ -15,7 +15,7 @@ export default class HistoryView extends React.Component{
                 <div className="container">
                     <div className="row text-center my-4  buttons">
                         <div className="col-4 "><Button variant="success"
-                                                        onClick>Log out</Button></div>
+                                                        onClick={this.props.toLogout}>Log out</Button></div>
                         <div className="col-4 "><Button variant="success" 
                                                         onClick={this.props.toMenu}>Menu</Button></div>
                         <div className="col-4 "><Button variant="success"
@@ -24,7 +24,10 @@ export default class HistoryView extends React.Component{
                     {this.props.orders.map((o,i)=>
                         <Order order={o}></Order>
                     )}
-                    {this.props.orders.length===0 && <Label text={this.props.text}></Label>}
+                    <div className="color-red">
+                        {this.props.orders.length===0 && <Label text={this.props.text}></Label>}
+                    </div>
+                  
                 </div>
             </div>
         )

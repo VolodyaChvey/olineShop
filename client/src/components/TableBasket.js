@@ -13,12 +13,11 @@ export default class TableBasket extends React.Component{
         return(
             <div>
                 <table  className="table table-bordered table-responsive table-hover">
-                    <thead>
+                    <thead className="firstThead">
                         <tr>
                             <th>Items</th>
                         </tr>
                         <tr>
-                            <th>ID</th>
                             <th>title</th>
                             <th>price</th>
                             <th>quantity</th>
@@ -27,8 +26,7 @@ export default class TableBasket extends React.Component{
                     </thead>
                     <tbody>
                     {basletItems.map((item,i)=>
-                            <tr>
-                                <th>{item.id}</th>
+                            <tr>   
                                 <th>{item.tittle}</th>
                                 <th>{item.price}</th>
                                 <th>{item.quantity}</th>

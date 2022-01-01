@@ -5,7 +5,7 @@ import com.chvei.dto.ProductDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductConverters {
+public class ProductConverter {
 
     public ProductDto toDto(Product product) {
         ProductDto productDto = new ProductDto();

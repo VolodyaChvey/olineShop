@@ -1,6 +1,6 @@
 package com.chvei.controller;
 
-import com.chvei.converters.ProductConverters;
+import com.chvei.converters.ProductConverter;
 import com.chvei.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,21 +14,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/products")
 public class ProductController {
     private ProductService productService;
-    private ProductConverters productConverters;
+    private ProductConverter productConverter;
 
     public ProductController() {
     }
 
     @Autowired
-    public ProductController(ProductService productService, ProductConverters productConverters) {
+    public ProductController(ProductService productService, ProductConverter productConverter) {
         this.productService = productService;
-        this.productConverters = productConverters;
+        this.productConverter = productConverter;
     }
 
     @GetMapping(value = "")
     public ResponseEntity getAllProduct() {
         return ResponseEntity.ok(productService.getAllProducts().stream()
-                .map(productConverters::toDto).collect(Collectors.toList()));
+                .map(productConverter::toDto).collect(Collectors.toList()));
     }
 
 }

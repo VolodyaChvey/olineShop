@@ -32,7 +32,7 @@ export default class ProductView extends React.Component{
                 <div className="container">
                     <div className="row text-center my-4  buttons">
                         <div className="col-4 "><Button variant="success"
-                                                        onClick>Log out</Button></div>
+                                                        onClick={this.props.toLogout}>Log out</Button></div>
                         <div className="col-4 "><Button variant="success" 
                                                         onClick={this.props.toBasket}>Basket</Button></div>
                         <div className="col-4 "><Button variant="success"

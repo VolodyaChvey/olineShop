@@ -35,7 +35,7 @@ export default class BasketView extends React.Component{
                 <div className="container">
                     <div className="row text-center my-4  buttons">
                         <div className="col-4 "><Button variant="success"
-                                                        onClick>Log out</Button></div>
+                                                        onClick={this.props.toLogout}>Log out</Button></div>
                         <div className="col-4 "><Button variant="success" 
                                                         onClick={this.props.toMenu}>Menu</Button></div>
                         <div className="col-4 "><Button variant="success"
@@ -45,9 +45,12 @@ export default class BasketView extends React.Component{
                         <div className="col-4 "></div>
                         <div className="col-4 "></div>
                         <div className="col-4 d-grid gap-2 "><Button variant="primary"
-                                                        onClick={this.props.onClickToPay}>toPay</Button></div>
+                                                        onClick={this.props.onClickToPay}>to Pay</Button></div>
                     </div>
-                    {this.props.items.length===0&&<Label text={this.props.text}></Label>}
+                    <div className="color-red">
+                        {this.props.items.length===0&&<Label text={this.props.text}></Label>}
+                    </div>
+
                     {!this.props.order&&this.onShowItem(this.props.items)}
                     {this.props.order&&<Order order={this.props.order}></Order>}
                 </div>
