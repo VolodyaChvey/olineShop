@@ -31,10 +31,10 @@ at the endpoint `/products` by GET-method.
  your chosen products.
  
  5.To confirm the order,you need to call at the endpoint
-  `/OnlineShop/orders`by POST-method which can be without body.
+  `/orders`by POST-method which can be without body.
  
  6.To view the list of completing orders, you need to call 
- at the endpoint `/OnlineShop/orders` by GET-method.
+ at the endpoint `/orders` by GET-method.
  
  
  The front-end part is in folder `client` make using `react.js`,
