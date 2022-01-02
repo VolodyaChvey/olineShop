@@ -1,5 +1,7 @@
 package com.chvei.dto;
 
+import java.util.Objects;
+
 public class ProductDto {
     private int id;
     private String tittle;
@@ -45,5 +47,20 @@ public class ProductDto {
                 ", tittle='" + tittle + '\'' +
                 ", price='" + price + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductDto that = (ProductDto) o;
+        return id == that.id &&
+                tittle.equals(that.tittle) &&
+                price.equals(that.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, tittle, price);
     }
 }

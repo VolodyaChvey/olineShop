@@ -17,7 +17,7 @@ public class BasketConverter {
             item.setTittle((String) O[1]);
             item.setPrice(Float.valueOf(O[2].toString()));
             item.setQuantity(Integer.parseInt(O[3].toString()));
-            item.setTotal(Math.round(Double.valueOf((Double) O[4])*100)/100.00);
+            item.setTotal(Math.round(Double.valueOf((Double) O[4]) * 100) / 100.00);
             basketList.add(item);
         }
         return basketList;

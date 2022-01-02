@@ -1,5 +1,7 @@
 package com.chvei.dto;
 
+import java.util.Objects;
+
 public class BasketItemDto {
     private int productId;
     private String tittle;
@@ -67,5 +69,22 @@ public class BasketItemDto {
                 ", quantity=" + quantity +
                 ", total=" + total +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BasketItemDto that = (BasketItemDto) o;
+        return productId == that.productId &&
+                quantity == that.quantity &&
+                Double.compare(that.total, total) == 0 &&
+                tittle.equals(that.tittle) &&
+                price.equals(that.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productId, tittle, price, quantity, total);
     }
 }

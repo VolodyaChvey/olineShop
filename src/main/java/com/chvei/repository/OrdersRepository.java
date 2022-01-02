@@ -23,25 +23,25 @@ public class OrdersRepository {
     public List<Orders> findAllOrdersByUserId(int userId) {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Orders where timestamp is Not Null and user_id=:userId")
-                .setParameter("userId",userId)
+                .setParameter("userId", userId)
                 .getResultList();
     }
 
     public Optional<Orders> findOrderByNullByUserId(int userId) {
         return (Optional<Orders>) sessionFactory.getCurrentSession()
                 .createQuery("from Orders where timestamp is Null and user_id=:userId")
-                .setParameter("userId",userId)
+                .setParameter("userId", userId)
                 .getResultStream()
                 .findFirst();
     }
 
-    public List<Object[]> findBasket(Long ordersId){
+    public List<Object[]> findBasket(Long ordersId) {
         return sessionFactory.getCurrentSession()
                 .createSQLQuery("SELECT P.id, P.tittle, P.price, COUNT(*), SUM(P.price) " +
                         "FROM Product AS P JOIN orders_product AS O_P ON O_P.product_id = P.id " +
                         "WHERE O_P.orders_id =:idOrders " +
                         "GROUP BY P.id")
-                .setParameter("idOrders",ordersId)
+                .setParameter("idOrders", ordersId)
                 .getResultList();
     }
 }

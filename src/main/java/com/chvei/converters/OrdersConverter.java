@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OrdersConverter {
-@Autowired
-private OrdersService ordersService;
-@Autowired
-private BasketConverter basketConverter;
-@Autowired
-private UserConverter userConverter;
+    @Autowired
+    private OrdersService ordersService;
+    @Autowired
+    private BasketConverter basketConverter;
+    @Autowired
+    private UserConverter userConverter;
 
     public OrdersConverter() {
     }

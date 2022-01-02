@@ -71,4 +71,21 @@ public class OrdersDto {
                 ", items=" + items +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrdersDto ordersDto = (OrdersDto) o;
+        return Double.compare(ordersDto.orderPrice, orderPrice) == 0 &&
+                id.equals(ordersDto.id) &&
+                timestamp.equals(ordersDto.timestamp) &&
+                userDto.equals(ordersDto.userDto) &&
+                items.equals(ordersDto.items);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, orderPrice, timestamp, userDto, items);
+    }
 }

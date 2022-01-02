@@ -17,11 +17,15 @@ public class UserController {
     private UserService userService;
     private UserConverter userConverter;
 
+    public UserController() {
+    }
+
     @Autowired
     public UserController(UserService userService, UserConverter userConverter) {
         this.userService = userService;
         this.userConverter = userConverter;
     }
+
     @GetMapping(value = "/current")
     public ResponseEntity getCurrentUser(Principal principal) {
         return userService.getCurrentUser(principal)

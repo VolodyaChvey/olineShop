@@ -10,10 +10,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private int id;
-
     @Column(nullable = false)
     private String tittle;
-
     @Column(nullable = false)
     private float price;
     @ManyToMany(mappedBy = "productList")
@@ -84,4 +82,5 @@ public class Product {
     public int hashCode() {
         return Objects.hash(id, tittle, price);
     }
+
 }

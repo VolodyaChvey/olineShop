@@ -28,5 +28,4 @@ public class ProductRepository {
                 .getResultStream()
                 .findFirst();
     }
-
 }

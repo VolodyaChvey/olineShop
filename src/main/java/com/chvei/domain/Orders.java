@@ -3,6 +3,7 @@ package com.chvei.domain;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Orders {
@@ -75,5 +76,22 @@ public class Orders {
                 ", user=" + user +
                 ", productList=" + productList +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Orders orders = (Orders) o;
+        return Double.compare(orders.orderPrice, orderPrice) == 0 &&
+                id.equals(orders.id) &&
+                timestamp.equals(orders.timestamp) &&
+                user.equals(orders.user) &&
+                productList.equals(orders.productList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, orderPrice, timestamp, user, productList);
     }
 }

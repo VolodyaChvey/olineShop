@@ -38,7 +38,7 @@ public class OrdersController {
     @GetMapping(value = "")
     public ResponseEntity getAllOrdersByUser(Principal principal) {
         return ordersService.getAllOrdersByUser(principal)
-                .map(listO->ResponseEntity.ok(listO.stream()
+                .map(listO -> ResponseEntity.ok(listO.stream()
                         .map(ordersConverter::toDto)
                         .collect(Collectors.toList())))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -52,16 +52,24 @@ public class OrdersController {
     }
 
     @PostMapping(value = "/basketItems/add")
-    public ResponseEntity addItemToBasket(@RequestBody ProductDto productDto,Principal principal) {
-        return ordersService.addProduct(productConverter.toEntity(productDto),principal)
-                ? new ResponseEntity(HttpStatus.OK)
-                : new ResponseEntity(HttpStatus.BAD_REQUEST);
+    public ResponseEntity addItemToBasket(@RequestBody ProductDto productDto, Principal principal) {
+        try {
+            return ordersService.addProduct(productConverter.toEntity(productDto), principal)
+                    ? new ResponseEntity(HttpStatus.OK)
+                    : new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping(value = "/basketItems/del")
-    public ResponseEntity delItemFromBasket(@RequestBody ProductDto productDto,Principal principal) {
-        return ordersService.delProduct(productConverter.toEntity(productDto),principal)
-                ? new ResponseEntity(HttpStatus.OK)
-                : new ResponseEntity(HttpStatus.BAD_REQUEST);
+    public ResponseEntity delItemFromBasket(@RequestBody ProductDto productDto, Principal principal) {
+        try {
+            return ordersService.delProduct(productConverter.toEntity(productDto), principal)
+                    ? new ResponseEntity(HttpStatus.OK)
+                    : new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 }

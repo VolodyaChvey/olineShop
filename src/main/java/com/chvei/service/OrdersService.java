@@ -1,9 +1,9 @@
 package com.chvei.service;
 
-import com.chvei.converters.BasketConverter;
 import com.chvei.domain.Orders;
 import com.chvei.domain.Product;
 import com.chvei.domain.User;
+import com.chvei.exceptions.UserNotFoundException;
 import com.chvei.repository.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +24,6 @@ public class OrdersService {
     private ProductService productService;
     @Autowired
     private UserService userService;
-    @Autowired
-    BasketConverter basketConverter;
 
     public OrdersService() {
     }
@@ -56,9 +54,6 @@ public class OrdersService {
             return Optional.empty();
         }
         Orders order = getOrdersOrCreatOrders(user);
-
-        System.out.println("completdOrders: " + order);
-
         if (!order.getProductList().isEmpty()) {
             order.setOrderPrice(Math.round(order.getProductList().stream()
                     .mapToDouble(Product::getPrice)
@@ -69,20 +64,16 @@ public class OrdersService {
         return Optional.empty();
     }
 
-    public boolean addProduct(Product product, Principal principal) {
-        User user = userService.getCurrentUser(principal).orElse(null);
-        if (user == null) {
-            return false;
-        }
+    public boolean addProduct(Product product, Principal principal) throws UserNotFoundException {
+        User user = userService.getCurrentUser(principal)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         Orders orders = getOrdersOrCreatOrders(user);
         return validProduct(product) && orders.getProductList().add(product);
     }
 
-    public boolean delProduct(Product product, Principal principal) {
-        User user = userService.getCurrentUser(principal).orElse(null);
-        if (user == null) {
-            return false;
-        }
+    public boolean delProduct(Product product, Principal principal) throws UserNotFoundException {
+        User user = userService.getCurrentUser(principal)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         Orders orders = getOrdersOrCreatOrders(user);
         return validProduct(product) && orders.getProductList().remove(product);
     }

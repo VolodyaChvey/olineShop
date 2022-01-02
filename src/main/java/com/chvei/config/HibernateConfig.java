@@ -55,5 +55,4 @@ public class HibernateConfig {
         dataSource.setPassword(env.getProperty("jdbc.pass"));
         return dataSource;
     }
-
 }

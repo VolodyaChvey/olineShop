@@ -30,5 +30,4 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts().stream()
                 .map(productConverter::toDto).collect(Collectors.toList()));
     }
-
 }

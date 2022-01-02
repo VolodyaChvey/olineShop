@@ -5,6 +5,7 @@ import com.chvei.dto.ProductDto;
 import org.springframework.stereotype.Component;
 
 @Component
+
 public class ProductConverter {
 
     public ProductDto toDto(Product product) {
@@ -15,7 +16,7 @@ public class ProductConverter {
         return productDto;
     }
 
-    public Product toEntity(ProductDto productDto) {
+    public Product toEntity(ProductDto productDto) throws NullPointerException {
         Product product = new Product();
         product.setId(productDto.getId());
         product.setTittle(productDto.getTittle());
